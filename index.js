@@ -43,12 +43,12 @@ function validate_origin(req, service) {
         }
         var key_promise = new Promise(function(key_res, key_rej) {
             sa.get(HUB_URL + "/get/key/" + node_id).end(function(sa_err, sa_res) {
-                if (sa_err) {
+                var res_key = JSON.parse(sa_res || "[]").key;
+                if (res_key) {
+                    key_res(res_key);
+                } else {
                     key_rej();
                 }
-                if (sa_res) {
-                    key_res(sa_res);
-                } else {
                     key_rej();
                 }
             })
@@ -61,11 +61,11 @@ function validate_origin(req, service) {
 
 
 function handle_get(req, res){
-  validate_origin(req, "echo").then(res.send(MEMORY)).catch(res.sendStatus(401));
+  validate_origin(req, "echo").then(() => res.send(MEMORY)).catch(() => res.sendStatus(401));
 }
 
 function handle_post(req, res){
-  validate_origin(req, "echo").then(res.send(MEMORY)).catch(res.sendStatus(401));
+  validate_origin(req, "echo").then(() =>res.send(MEMORY)).catch(() => res.sendStatus(401));
 }
 
 app.get("/get", handle_get);
