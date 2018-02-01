@@ -4,4 +4,4 @@ hostname=$3
 
 curl -X POST "$hub_url/post/services" --data "{admin_password: $hub_pw, host = $hostname}"
 
-node index.js $host_url
+nodejs index.js $hostname
