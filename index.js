@@ -67,6 +67,5 @@ function handle_post(req, res){
 
 app.get("/get", handle_get);
 app.post("/post", handle_post);
-app.post("/post", handle_post);
 
 app.listen(8082);
