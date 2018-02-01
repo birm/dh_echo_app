@@ -11,4 +11,4 @@ RUN apt-get --yes --force-yes install npm
 RUN npm install
 
 
-ENTRYPOINT bash /app/index.js $hub_url $hub_pw $hostname
+ENTRYPOINT bash /app/host.sh $hub_url $hub_pw $hostname
