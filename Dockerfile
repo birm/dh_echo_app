@@ -1,7 +1,4 @@
 FROM node
-ARG hub_url
-ARG hub_pw
-ARG hostname
 
 WORKDIR "/app"
 COPY package*.json ./
