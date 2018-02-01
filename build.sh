@@ -14,5 +14,5 @@ npm install
 openssl genrsa -out cert.pem 2048
 openssl rsa -in cert.pem -pubout -out cert.pub
 # host app
-NODE_ID = $(curl -X POST "$HUB_URL/post/services" --data "{admin_password: $ADMIN_PW, host = $HOSTNAME}")
+curl -X POST "$HUB_URL/post/services" --data "{admin_password: $ADMIN_PW, host = $HOSTNAME}"
 nodejs index.js $HUB_URL &&
