@@ -49,8 +49,6 @@ function validate_origin(req, service) {
                 } else {
                     key_rej();
                 }
-                    key_rej();
-                }
             })
         });
         key_promise.then(val_sign).catch(reject);
