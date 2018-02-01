@@ -20,18 +20,21 @@ if (process.argv.length < 3) {
 }
 
 // take in request, validate body using headers
-function validate_origin(req) {
+function validate_origin(req, service) {
     var node_id = req.header("keyId");
     var signature = req.header("Signature");
-    var body = req.body;
     // if we're signing user_id (get)
     if (req.header("userid")){
       body = req.header("userid")
+    } else {
+      body = req.body
     }
+    test_body = {body: body, path: "/api/" + service + req.originalUrl}
+    body.url = req.originalUrl.splice(3).split("/").join("/")
     var ver_promise = new Promise(function(resolve, reject) {
         function val_sign(pub) {
             var ver = crypto.createVerify('RSA-SHA256');
-            ver.update(JSON.stringify(body))
+            ver.update(JSON.stringify(test_body))
             if (ver.verify(pub, signature, 'base64')) {
                 resolve(body)
             } else {
@@ -58,11 +61,11 @@ function validate_origin(req) {
 
 
 function handle_get(req, res){
-  validate_origin(req).then(res.send(MEMORY)).catch(res.sendStatus(401));
+  validate_origin(req, "echo").then(res.send(MEMORY)).catch(res.sendStatus(401));
 }
 
 function handle_post(req, res){
-  validate_origin(req).then(res.send(MEMORY)).catch(res.sendStatus(401));
+  validate_origin(req, "echo").then(res.send(MEMORY)).catch(res.sendStatus(401));
 }
 
 app.get("/get", handle_get);
