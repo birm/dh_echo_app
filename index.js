@@ -30,7 +30,6 @@ function validate_origin(req, service) {
       body = req.body
     }
     test_body = {body: body, path: "/api/" + service + req.originalUrl}
-    body.url = req.originalUrl.splice(3).split("/").join("/")
     var ver_promise = new Promise(function(resolve, reject) {
         function val_sign(pub) {
             var ver = crypto.createVerify('RSA-SHA256');
