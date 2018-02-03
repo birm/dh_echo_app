@@ -50,7 +50,7 @@ function validate_origin(req, service) {
                     key_rej();
                 }
             })
-            .catch((e)=>(key_rej(e))
+            .catch((e)=>(key_rej(e)))
         });
         key_promise.then(val_sign).catch(reject);
     });
