@@ -21,7 +21,7 @@ if (process.argv.length < 3) {
 }
 
 // take in request, validate body using headers
-function validate_origin(req, service, userid) {
+function validate_origin(req, service) {
     var node_id = req.header("keyId");
     var signature = req.header("Signature");
     // if we're signing user_id (get)
@@ -59,11 +59,11 @@ function validate_origin(req, service, userid) {
 
 
 function handle_get(req, res){
-  validate_origin(req, "echo", true).then(() => res.send(MEMORY)).catch(() => res.sendStatus(401));
+  validate_origin(req, "echo").then(() => res.send(MEMORY)).catch(() => res.sendStatus(401));
 }
 
 function handle_post(req, res){
-  validate_origin(req, "echo", false).then(() =>res.send(MEMORY)).catch(() => res.sendStatus(401));
+  validate_origin(req, "echo").then(() =>res.send(MEMORY)).catch(() => res.sendStatus(401));
 }
 
 app.get("/get", handle_get);
