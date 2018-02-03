@@ -21,17 +21,13 @@ if (process.argv.length < 3) {
 }
 
 // take in request, validate body using headers
-function validate_origin(req, service, is_get) {
+function validate_origin(req, service, userid) {
     var node_id = req.header("keyId");
     var signature = req.header("Signature");
     // if we're signing user_id (get)
-    var body;
-    if (is_get){
-      body = req.header("userid")
-    } else {
-      body = req.body
-    }
-    test_body = {body: body, path: "/api/" + service + req.originalUrl}
+    var body = req.body;
+    var userid = req.header("userid")
+    test_body = {body: body, path: "/api/" + service + req.originalUrl, userid: userid}
     var ver_promise = new Promise(function(resolve, reject) {
         function val_sign(pub) {
             // missing plus signs, they're spaces
