@@ -24,6 +24,7 @@ function validate_origin(req, service) {
     var node_id = req.header("keyId");
     var signature = req.header("Signature");
     // if we're signing user_id (get)
+    var body;
     if (req.header("userid")){
       body = req.header("userid")
     } else {
