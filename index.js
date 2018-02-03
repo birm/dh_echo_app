@@ -11,21 +11,22 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 var MEMORY="new"
+var HUB_URL;
 
 if (process.argv.length < 3) {
     console.log("Usage: " + __filename + " HUB_URL");
     process.exit(-1);
 } else {
-    var HUB_URL = process.argv[3];
+    HUB_URL = process.argv[3];
 }
 
 // take in request, validate body using headers
-function validate_origin(req, service) {
+function validate_origin(req, service, is_get) {
     var node_id = req.header("keyId");
     var signature = req.header("Signature");
     // if we're signing user_id (get)
     var body;
-    if (req.header("userid")){
+    if (is_get){
       body = req.header("userid")
     } else {
       body = req.body
@@ -50,7 +51,7 @@ function validate_origin(req, service) {
                     key_rej();
                 }
             })
-            .catch((e)=>(key_rej(e)))
+            .catch((e)=>(reject(e)))
         });
         key_promise.then(val_sign).catch(reject);
     });
@@ -60,11 +61,11 @@ function validate_origin(req, service) {
 
 
 function handle_get(req, res){
-  validate_origin(req, "echo").then(() => res.send(MEMORY)).catch(() => res.sendStatus(401));
+  validate_origin(req, "echo", true).then(() => res.send(MEMORY)).catch(() => res.sendStatus(401));
 }
 
 function handle_post(req, res){
-  validate_origin(req, "echo").then(() =>res.send(MEMORY)).catch(() => res.sendStatus(401));
+  validate_origin(req, "echo", false).then(() =>res.send(MEMORY)).catch(() => res.sendStatus(401));
 }
 
 app.get("/get", handle_get);
