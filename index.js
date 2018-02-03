@@ -17,7 +17,7 @@ if (process.argv.length < 3) {
     console.log("Usage: " + __filename + " HUB_URL");
     process.exit(-1);
 } else {
-    HUB_URL = process.argv[3];
+    HUB_URL = process.argv[2];
 }
 
 // take in request, validate body using headers
