@@ -35,7 +35,7 @@ function validate_origin(req, service, is_get) {
     var ver_promise = new Promise(function(resolve, reject) {
         function val_sign(pub) {
             // missing plus signs, they're spaces
-            pub = "-----BEGIN PUBLIC KEY-----" + pub.slice(26, -25).replace(/ /g , "+") + "-----END PUBLIC KEY-----"
+            pub = "-----BEGIN PUBLIC KEY-----" + pub.slice(26, -24).replace(/ /g , "+") + "-----END PUBLIC KEY-----"
             var ver = crypto.createVerify('RSA-SHA256');
             ver.update(JSON.stringify(test_body))
             if (ver.verify(pub, signature, 'base64')) {
