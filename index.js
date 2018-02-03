@@ -42,7 +42,7 @@ function validate_origin(req, service) {
             }
         }
         var key_promise = new Promise(function(key_res, key_rej) {
-            sa.get(HUB_URL + "/get/key/" + node_id).end(function(sa_err, sa_res) {
+            sa.get(HUB_URL + "/get/key/" + node_id).then(function(sa_res) {
                 var res_key = JSON.parse(sa_res.text || "[]").key;
                 if (res_key) {
                     key_res(res_key);
@@ -50,6 +50,7 @@ function validate_origin(req, service) {
                     key_rej();
                 }
             })
+            .catch((e)=>(key_rej(e))
         });
         key_promise.then(val_sign).catch(reject);
     });
